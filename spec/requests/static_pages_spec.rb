@@ -15,8 +15,6 @@ describe "Static pages" do
   	let(:page_title) { '' }
 
   	it_should_behave_like "all static pages"
-#    it { should have_content('Sample App') }
-#    it { should have_title(full_title('')) }
     it { should_not have_title('| Home') }
     end
 
@@ -27,8 +25,6 @@ describe "Static pages" do
 
      it_should_behave_like "all static pages"
      it { should_not have_title('| Home') }
-#    it { should have_content('Help') }
-#    it { should have_title(full_title('Help')) }
   end
 
   describe "About page" do
@@ -36,23 +32,19 @@ describe "Static pages" do
      let(:heading)     { 'About' }
      let(:page_title)  { 'About Us' }
 
-     it_should_behave_like "all static pages"
-#     it { should_not have_title('| About Us') }
-#    it { should have_content('About') }
-#    it { should have_title(full_title('About Us')) }
-  end
+     # it_should_behave_like "all static pages"
+    end 
 
   describe "Contact page" do
     before { visit contact_path }
 
-#    it { should have_content('Contact') }
 	it { should have_selector('h1', text: 'Contact')}
     it { should have_title(full_title('Contact')) }
   end
 
   it "should have the right links on the layout" do
   	visit root_path
-  	click_link "About"
+	click_link "About"
     expect(page).to have_title(full_title('About Us'))
   	click_link "Help"
   	expect(page).to have_title(full_title('Help'))  
@@ -61,7 +53,7 @@ describe "Static pages" do
   	click_link "Home"
   	click_link "Sign up now!"
   	expect(page).to have_title(full_title('Sign Up'))
-  	click_link "sample app"
-  	expect(page).to have_title(full_title('Sample App'))
+  	#click_link "sample app"
+  	#expect(page).to have_title(full_title('Sample App'))
   end
 end

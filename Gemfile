@@ -17,6 +17,7 @@ end
 group :test do
 	gem 'selenium-webdriver'
 	gem 'capybara'
+    gem 'factory_girl_rails', '~> 4.8'
 end
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0', '>= 5.0.6'
