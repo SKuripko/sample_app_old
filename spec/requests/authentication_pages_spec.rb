@@ -37,9 +37,15 @@ describe 'Auhtentication' do
       it { expect(page).to have_link('Sign in', href: signin_path) }
     end
 
+    describe 'after signing in' do # Тест на дружелюбную переадресацию, один раз
+      it 'should render the desired protected page' do
+        page.has_title?('Edit user')
+      end
+    end
+
     describe 'followed by signout' do
-      before { click_link('Sign out') }
-      it { should have_link('Sign in') }
+      before { click_link 'Sign out' }
+      it { page.has_link?('Sign in') }
     end
   end
 
@@ -54,9 +60,21 @@ describe 'Auhtentication' do
           fill_in 'Password', with: user.password
           click_button 'Sign in'
         end
+      end
 
-        describe 'after signing in' do
-          it { page.has_title?('Edit user') }
+      describe 'after signing in' do
+        describe 'when signing in again' do
+          before do
+            delete signout_path
+            visit signin_path
+            fill_in 'Email',    with: user.email
+            fill_in 'Password', with: user.password
+            click_button 'Sign in'
+          end
+
+          describe 'should_not render the default (profile) page' do
+            it { expect(page).to have_title(user.name) }
+          end
         end
       end
 
@@ -95,15 +113,29 @@ describe 'Auhtentication' do
       end
     end
 
-    describe "as non-admin user" do
-      let(:user) {FactoryGirl.create(:user) }
+    describe 'as non-admin user' do
+      let(:user) { FactoryGirl.create(:user) }
       let(:non_admin) { FactoryGirl.create(:user) }
 
       before { sign_in non_admin, no_capybara: true }
 
-      describe "submitting a DELETE request to the Users#destroy action" do
+      describe 'submitting a DELETE request to the Users#destroy action' do
         before { delete user_path(user) }
         specify { expect(response).to redirect_to(root_url) }
+      end
+    end
+
+      describe "in the Microposts controller" do
+      	before do
+        describe "submitting to the create action" do
+          before { post microposts_path }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+
+        describe "submitting to the destroy action" do
+          before { delete micropost_path(FactoryGirl.create(:micropost)) }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
       end  
     end
   end
