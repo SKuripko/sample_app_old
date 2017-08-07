@@ -16,21 +16,32 @@ describe 'Static pages' do
     it_should_behave_like 'all static pages'
     it { should_not have_title('| Home') }
 
-    describe "for signed-in users" do
-      let(:user){ FactoryGirl.create(:user) }
+    describe 'for signed-in users' do
+      let(:user) { FactoryGirl.create(:user) }
       before do
-        FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
-        FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+        FactoryGirl.create(:micropost, user: user, content: 'Lorem ipsum')
+        FactoryGirl.create(:micropost, user: user, content: 'Dolor sit amet')
         sign_in user
         visit root_path
       end
-      
+
       it "should render user's feed" do
-        user.feed.each do |item|  
+        user.feed.each do |item|
           page.has_selector?("li##{item.id}", text: item.content)
         end
       end
-    end      
+    end
+
+    describe "follower/following counts" do
+      let(:other_user) { FactoryGirl.create(:user) }
+      before do
+        other_user.follow!(other_user)
+        visit root_path
+      end
+      
+      it { page.has_link?("0 following", href: following_user_path(other_user)) }
+      it { page.has_link?("1 followers", href: followers_user_path(other_user)) }
+    end    
   end
 
   describe 'Help page' do

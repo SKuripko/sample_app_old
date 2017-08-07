@@ -42,4 +42,17 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.infer_spec_type_from_file_location!
   include ApplicationHelper
+
+  config.before(:suite) do
+    DatabaseCleaner[:active_record].strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end

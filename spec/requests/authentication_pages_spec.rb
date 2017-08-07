@@ -44,8 +44,10 @@ describe 'Auhtentication' do
     end
 
     describe 'followed by signout' do
-      before { click_link 'Sign out' }
-      it { page.has_link?('Sign in') }
+      before do
+        click_link('Sign out')
+        it { page.has_link?('Sign in') }
+      end
     end
   end
 
@@ -60,7 +62,23 @@ describe 'Auhtentication' do
           fill_in 'Password', with: user.password
           click_button 'Sign in'
         end
-      end
+      end 
+
+      describe "in the Relationships controller" do
+        describe "submitting to the create action" do
+          before do 
+            post relationships_path 
+            specify { expect(response).to redirect_to(signin_path) }
+          end  
+        end
+        
+        describe "submitting to the destroy action" do
+          before do
+            delete relationships_path(1)
+            specify { expect(response).to redirect_to(signin_path) }
+          end  
+        end
+      end      
 
       describe 'after signing in' do
         describe 'when signing in again' do
@@ -94,6 +112,16 @@ describe 'Auhtentication' do
           it { page.has_title?('Sign in') }
         end
       end
+
+      describe "visiting the following page" do
+        before { visit following_user_path(user) }
+        it { page.has_title?('Sign in')}
+      end
+      
+      describe " visiting the followers page" do
+        before { visit followers_user_path(user) }
+        it { page.has_title?('Sign in') }
+      end  
     end
 
     describe 'as wrong user' do
@@ -125,18 +153,18 @@ describe 'Auhtentication' do
       end
     end
 
-      describe "in the Microposts controller" do
-      	before do
-        describe "submitting to the create action" do
+    describe 'in the Microposts controller' do
+      before do
+        describe 'submitting to the create action' do
           before { post microposts_path }
           specify { expect(response).to redirect_to(signin_path) }
         end
 
-        describe "submitting to the destroy action" do
+        describe 'submitting to the destroy action' do
           before { delete micropost_path(FactoryGirl.create(:micropost)) }
           specify { expect(response).to redirect_to(signin_path) }
         end
-      end  
+      end
     end
   end
 end

@@ -11,6 +11,7 @@ gem 'rails', '~> 5.1'
 gem 'will_paginate', '~> 3.1', '>= 3.1.6'
 # Use sqlite3 as the database for Active Record
 group :development, :test do
+  gem 'pry'
   gem 'launchy'
   gem 'rspec-rails', '~> 3.6'
   gem 'rubocop'
@@ -21,6 +22,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'database_cleaner'
   gem 'factory_girl_rails', '~> 4.8'
   gem 'selenium-webdriver'
 end
