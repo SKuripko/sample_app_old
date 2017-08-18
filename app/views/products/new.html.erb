@@ -1,0 +1,24 @@
+<% provide(:title, 'Product new') %>
+<h1>New Products</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+  	<%= form_for(@product) do |f| %>
+
+  	  <%= render 'shared/error_messages', object: f.object %>
+      <%= f.label :title %>
+      <%= f.text_field :title %> 	
+   
+  	  <%= f.label :description %>
+  	  <%= f.text_area :description, rows: 6 %>
+  
+  	  <%= f.label :image_url %>
+  	  <%= f.text_field :image_url %>
+  
+  	  <%= f.label :price %>
+  	  <%= f.text_field :price %>
+
+  	  <%= f.submit "Create product" %>
+    <% end %>  
+  </div>
+</div>   

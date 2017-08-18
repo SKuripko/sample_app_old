@@ -15,6 +15,8 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, length: { minimum: 6 }
+  attr_accesible :avatar
+  has_attached_file :avatar, :styles => { :medium => "150x150", :thumb => "75x75" }
 
   def feed
     # Завершенная модель потока сообщений
@@ -27,7 +29,7 @@ class User < ApplicationRecord
 
   def self.encrypt(token)
     Digest::SHA1.hexdigest(token.to_s)
-  end
+  end 
 
   def following?(other_user)
     relationships.find_by(followed_id: other_user.id)

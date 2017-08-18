@@ -1,0 +1,32 @@
+<% provide(:title, 'Shop') %>
+<h1>Listing Products</h1>
+
+<%= form_tag(search_products_path, :method => :get) do %>
+    <%= text_field_tag :search, params[:search], placeholder:"Search product"%>
+    <%= submit_tag "Search", :name => nil %> 
+<% end %>
+
+<%= link_to 'New product', new_path %>
+<ul class="products">  
+  <% @products.each do |product| %>
+    <div class="<%= cycle('list_line_odd', 'list_line_even') %>">
+      <li>
+      	<section>
+        <%= image_tag(asset_path('book.png'), class: 'list_image', size: 100) %>
+        <%= link_to product.title, product %>
+        </section>
+        <%= truncate(strip_tags(product.description),
+          length: 80) %>
+        <span class="price">
+          <%= number_to_currency(product.price) %>
+        </span>  
+        <%= link_to 'Edit', edit_product_path(product) %>
+        <%= link_to 'Destroy', product, method: :delete,
+                     data: { confirm: 'Вы уверены?' } %>
+        <span class="timestamp">
+  	     Posted: <%= time_ago_in_words(product.created_at) %> ago.
+        </span>             
+      </li>             	
+    </div>
+  <% end %>      
+</ul>  

@@ -35,5 +35,6 @@ module SampleApp
     # config.active_record.raise_in_transactional_callbacks = true
     config.assets.precompile += %w[*.png *.jpg *.jpeg *.gif]
     config.action_view.embed_authenticity_token_in_remote_forms = true
+    config.assets.enabled = true
   end
 end

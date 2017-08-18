@@ -12,7 +12,7 @@ module SessionsHelper
 
   def current_user=(user)
     @current_user = user
-  end
+  end  
 
   def current_user
     remember_token = User.encrypt(cookies[:remember_token])

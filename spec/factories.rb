@@ -14,4 +14,11 @@ FactoryGirl.define do
     content 'Lorem ipsum'
     user
   end
+
+  factory :product do
+    sequence(:title) { |n| "Product #{n}" }
+    sequence(:description) { |n| "Book_#{n}"}
+    price { rand() * 100}
+    user
+  end  
 end

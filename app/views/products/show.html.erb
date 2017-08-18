@@ -1,0 +1,18 @@
+<% provide(:title, @product.title) %>
+<div class="row">
+  <aside class="span4">
+    <section>
+      <h1>
+        <%= @product.title %>
+      </h1>
+    </section>  
+  </aside>
+  <div class="span8">
+      <%= image_for @product, size: 100 %>
+      <%= truncate(strip_tags(@product.description),
+          length: 80) %> 
+        <span class="price">
+         Price: <%= number_to_currency(@product.price) %>
+        </span> 
+  </div>
+</div>
